@@ -30,7 +30,7 @@ namespace ToDoList.Models
 
     public static List<Item> GetAll()
     {
-    
+
       List<Item> allItems = new List<Item>{};
       MySqlConnection conn = DB.Connection();
       conn.Open();
@@ -65,17 +65,50 @@ namespace ToDoList.Models
       if (conn != null)
       {
         conn.Dispose();
-       }
+      }
     }
     public int GetId()
-   {
-     return 0;
-   }
-     public static Item Find(int searchId)
-   {
-     Item dummyItem = new Item("dummy item");
-    return dummyItem;
-   }
+    {
+      return 0;
+    }
+    public static Item Find(int searchId)
+    {
+      Item dummyItem = new Item("dummy item");
+      return dummyItem;
+
+    }
+    public override bool Equals(System.Object otherItem)
+    {
+      if (!(otherItem is Item))
+      {
+        return false;
+      }
+      else
+      {
+        Item newItem = (Item) otherItem;
+        bool descriptionEquality = (this.GetDescription() == newItem.GetDescription());
+        return (descriptionEquality);
+      }
+    }
+    public void Save()
+    {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"INSERT INTO items (description) VALUES (@ItemDescription);";
+      MySqlParameter description = new MySqlParameter();
+      description.ParameterName = "@ItemDescription";
+      description.Value = this._description;
+      cmd.Parameters.Add(description);
+      cmd.ExecuteNonQuery();
+      // more logic will go here in a moment
+
+      conn.Close();
+      if (conn != null)
+      {
+        conn.Dispose();
+      }
+    }
 
 
   }

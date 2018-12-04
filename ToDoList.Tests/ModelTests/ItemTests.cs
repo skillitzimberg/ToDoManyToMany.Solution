@@ -78,23 +78,39 @@ namespace ToDoList.Tests
       // Assert
       Assert.AreEqual(firstItem, secondItem);
     }
-    //
-    // [TestMethod]
-    // public void GetAll_ReturnsItems_ItemList()
-    // {
-    //   //Arrange
-    //   string description01 = "Walk the dog";
-    //   string description02 = "Wash the dishes";
-    //   Item newItem1 = new Item(description01);
-    //   Item newItem2 = new Item(description02);
-    //   List<Item> newList = new List<Item> { newItem1, newItem2 };
-    //
-    //   //Act
-    //   List<Item> result = Item.GetAll();
-    //
-    //   //Assert
-    //   CollectionAssert.AreEqual(newList, result);
-    // }
+    [TestMethod]
+   public void Save_SavesToDatabase_ItemList()
+   {
+     //Arrange
+     Item testItem = new Item("Mow the lawn");
+
+     //Act
+     testItem.Save();
+     List<Item> result = Item.GetAll();
+     List<Item> testList = new List<Item>{testItem};
+
+     //Assert
+     CollectionAssert.AreEqual(testList, result);
+   }
+
+    [TestMethod]
+    public void GetAll_ReturnsItems_ItemList()
+    {
+      //Arrange
+      string description01 = "Walk the dog";
+      string description02 = "Wash the dishes";
+      Item newItem1 = new Item(description01);
+      newItem1.Save();
+      Item newItem2 = new Item(description02);
+      newItem1.Save();
+      List<Item> newList = new List<Item> { newItem1, newItem2 };
+
+      //Act
+      List<Item> result = Item.GetAll();
+
+      //Assert
+      CollectionAssert.AreEqual(newList, result);
+    }
     // [TestMethod]
     //    public void GetId_ItemsInstantiateWithAnIdAndGetterReturns_Int()
     //    {
