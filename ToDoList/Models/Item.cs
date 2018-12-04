@@ -11,11 +11,11 @@ namespace ToDoList.Models
     private int _id;
 
 
-    public Item (string description)
+    public Item (string description, int id = 0)
     {
       _description = description;
 
-      // _id = _instances.Count;
+      _id = id;
     }
 
     public string GetDescription()
@@ -69,7 +69,7 @@ namespace ToDoList.Models
     }
     public int GetId()
     {
-      return 0;
+      return _id;
     }
     public static Item Find(int searchId)
     {
@@ -101,6 +101,7 @@ namespace ToDoList.Models
       description.Value = this._description;
       cmd.Parameters.Add(description);
       cmd.ExecuteNonQuery();
+      _id = (int) cmd.LastInsertedId;
       // more logic will go here in a moment
 
       conn.Close();
