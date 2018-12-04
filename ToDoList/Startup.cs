@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MySql.Data.MySqlClient;
+using ToDoList.Models;
 
 namespace ToDoList
 {
@@ -29,19 +31,18 @@ namespace ToDoList
       app.UseMvc(routes =>
       {
         routes.MapRoute(
-        name: "default",
-        template: "{controller=Home}/{action=Index}/{id?}");
-        });
+          name: "default",
+          template: "{controller=Home}/{action=Index}/{id?}");
+      });
 
         app.Run(async (context) =>
         {
           await context.Response.WriteAsync("Something went wrong!");
-          });
-        }
+        });
+      }
+    }
     public static class DBConfiguration
     {
-      public static string ConnectionString = "server=localhost;user id=root;password=root;port=8889;database=to_do_list;";
+      public static string ConnectionString = "server=localhost;user id=root;password=root;port=8889;database=todolist;";
     }
-
-  }
-}
+ }
