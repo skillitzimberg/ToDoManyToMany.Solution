@@ -2,7 +2,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ToDoList.Models;
 using System.Collections.Generic;
 using System;
-using MySql.Data.MySqlClient;
 
 namespace ToDoList.Tests
 {
@@ -14,9 +13,10 @@ namespace ToDoList.Tests
     {
       Item.ClearAll();
     }
+
     public ItemTest()
     {
-      DBConfiguration.ConnectionString = "server=localhost;user id=root;password=root;port=8889;database=todolisttest;";
+      DBConfiguration.ConnectionString = "server=localhost;user id=root;password=root;port=8889;database=todolist_test;";
     }
 
     [TestMethod]
@@ -68,30 +68,6 @@ namespace ToDoList.Tests
       //Assert
       CollectionAssert.AreEqual(newList, result);
     }
-    [TestMethod]
-    public void Equals_ReturnsTrueIfDescriptionsAreTheSame_Item()
-    {
-      // Arrange, Act
-      Item firstItem = new Item("Mow the lawn");
-      Item secondItem = new Item("Mow the lawn");
-
-      // Assert
-      Assert.AreEqual(firstItem, secondItem);
-    }
-    [TestMethod]
-   public void Save_SavesToDatabase_ItemList()
-   {
-     //Arrange
-     Item testItem = new Item("Mow the lawn");
-
-     //Act
-     testItem.Save();
-     List<Item> result = Item.GetAll();
-     List<Item> testList = new List<Item>{testItem};
-
-     //Assert
-     CollectionAssert.AreEqual(testList, result);
-   }
 
     [TestMethod]
     public void GetAll_ReturnsItems_ItemList()
@@ -111,6 +87,62 @@ namespace ToDoList.Tests
       //Assert
       CollectionAssert.AreEqual(newList, result);
     }
+
+    // [TestMethod]
+    // public void GetId_ItemsInstantiateWithAnIdAndGetterReturns_Int()
+    // {
+    //   //Arrange
+    //   string description = "Walk the dog.";
+    //   Item newItem = new Item(description);
+    //
+    //   //Act
+    //   int result = newItem.GetId();
+    //
+    //   //Assert
+    //   Assert.AreEqual(1, result);
+    // }
+
+
+    [TestMethod]
+    public void Find_ReturnsCorrectItemFromDatabase_Item()
+    {
+      //Arrange
+      Item testItem = new Item("Mow the lawn");
+      testItem.Save();
+
+      //Act
+      Item foundItem = Item.Find(testItem.GetId());
+
+      //Assert
+      Assert.AreEqual(testItem, foundItem);
+    }
+
+    [TestMethod]
+    public void Equals_ReturnsTrueIfDescriptionsAreTheSame_Item()
+    {
+      // Arrange, Act
+      Item firstItem = new Item("Mow the lawn");
+      Item secondItem = new Item("Mow the lawn");
+
+      // Assert
+      Assert.AreEqual(firstItem, secondItem);
+    }
+
+    [TestMethod]
+    public void Save_SavesToDatabase_ItemList()
+    {
+      //Arrange
+      Item testItem = new Item("Mow the lawn");
+
+      //Act
+      testItem.Save();
+      List<Item> result = Item.GetAll();
+      List<Item> testList = new List<Item>{testItem};
+
+      //Assert
+      CollectionAssert.AreEqual(testList, result);
+    }
+
     [TestMethod]
     public void Save_AssignsIdToObject_Id()
     {
@@ -127,33 +159,35 @@ namespace ToDoList.Tests
       //Assert
       Assert.AreEqual(testId, result);
     }
-    // [TestMethod]
-    //    public void GetId_ItemsInstantiateWithAnIdAndGetterReturns_Int()
-    //    {
-    //      //Arrange
-    //      string description = "Walk the dog.";
-    //      Item newItem = new Item(description);
-    //
-    //      //Act
-    //      int result = newItem.GetId();
-    //
-    //      //Assert
-    //      Assert.AreEqual(1, result);
-    //    }
+
     [TestMethod]
-    public void Find_ReturnsCorrectItemFromDatabase_Item()
+    public void Edit_UpdatesItemInDatabase_String()
     {
       //Arrange
-      Item testItem = new Item("Mow the lawn");
+      Item testItem = new Item("Walk the Dog");
       testItem.Save();
+      string secondDescription = "Mow the lawn";
 
       //Act
-      Item foundItem = Item.Find(testItem.GetId());
+      testItem.Edit(secondDescription);
+      string result = Item.Find(testItem.GetId()).GetDescription();
 
       //Assert
-      Assert.AreEqual(testItem, foundItem);
+      Assert.AreEqual(secondDescription, result);
     }
+    [TestMethod]
+    public void GetCategoryId_ReturnsItemsParentCategoryId_Int()
+    {
+      //Arrange
+      Category newCategory = new Category("Home Tasks");
+      Item newItem = new Item("Walk the dog.", newCategory.GetId());
 
+      //Act
+      int result = newItem.GetCategoryId();
+
+      //Assert
+      Assert.AreEqual(newCategory.GetId(), result);
+    }
 
   }
 }
