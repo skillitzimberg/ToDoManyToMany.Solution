@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using MySql.Data.MySqlClient;
-using ToDoList.Models;
-using System;
 
 namespace ToDoList.Models
 {
@@ -14,8 +12,8 @@ namespace ToDoList.Models
     public Item (string description, int categoryId, int id = 0)
     {
       _description = description;
-      _id = id;
       _categoryId = categoryId;
+      _id = id;
     }
 
     public string GetDescription()
@@ -32,6 +30,7 @@ namespace ToDoList.Models
     {
       return _id;
     }
+
     public int GetCategoryId()
     {
       return _categoryId;
@@ -71,7 +70,7 @@ namespace ToDoList.Models
       conn.Close();
       if (conn != null)
       {
-        conn.Dispose();
+       conn.Dispose();
       }
     }
 
@@ -112,14 +111,13 @@ namespace ToDoList.Models
       }
       else
       {
-        Item newItem = (Item) otherItem;
-        bool idEquality = (this.GetId() == newItem.GetId());
-        bool descriptionEquality = (this.GetDescription() == newItem.GetDescription());
-        bool categoryEquality = this.GetCategoryId() == newItem.GetCategoryId();
-        return (idEquality && descriptionEquality && categoryEquality);
-      }
+         Item newItem = (Item) otherItem;
+         bool idEquality = this.GetId() == newItem.GetId();
+         bool descriptionEquality = this.GetDescription() == newItem.GetDescription();
+         bool categoryEquality = this.GetCategoryId() == newItem.GetCategoryId();
+         return (idEquality && descriptionEquality && categoryEquality);
+       }
     }
-
 
     public void Save()
     {
