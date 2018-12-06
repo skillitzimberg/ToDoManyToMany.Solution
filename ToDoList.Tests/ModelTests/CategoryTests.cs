@@ -12,7 +12,7 @@ namespace ToDoList.Tests
 
     public CategoryTest()
     {
-      DBConfiguration.ConnectionString = "server=localhost;user id=root;password=root;port=8889;database=todolist_test;";
+      DBConfiguration.ConnectionString = "server=localhost;user id=root;password=root;port=8889;database=ToDoListTest;";
     }
     public void Dispose()
     {

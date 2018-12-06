@@ -1,10 +1,12 @@
 using System.Collections.Generic;
 using MySql.Data.MySqlClient;
+using System;
+
 namespace ToDoList.Models
 {
   public class Category
   {
-    private static List<Category>_instances = new List<Category> {};
+
     private string _name;
     private int _id;
     private List<Item> _items;
@@ -66,6 +68,11 @@ namespace ToDoList.Models
       Category newCategory = new Category(CategoryName, CategoryId);
       allCategories.Add(newCategory);
     }
+
+    foreach (var category in allCategories)
+    {
+      Console.WriteLine("This is category name: " + category.GetName());
+    }
     conn.Close();
     if (conn != null)
     {
@@ -90,6 +97,7 @@ namespace ToDoList.Models
       {
         conn.Dispose();
       }
+      Console.WriteLine("Successfully saved ''" + this._name + "'' to the database");
     }
     public static Category Find(int id)
     {
