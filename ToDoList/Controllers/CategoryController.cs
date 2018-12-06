@@ -43,7 +43,7 @@ namespace ToDoList.Controllers
       Category foundCategory = Category.Find(categoryId);
       Item newItem = new Item(itemDescription, categoryId);
       newItem.Save();
-      foundCategory.Save();
+      
       List<Item> categoryItems = foundCategory.GetItems();
       model.Add("items", categoryItems);
       model.Add("category", foundCategory);
