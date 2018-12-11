@@ -17,7 +17,8 @@ namespace ToDoList.Controllers
     [HttpGet("/items/new")]
     public ActionResult New(int categoryId)
     {
-       return View(categoryId);
+      Category foundCategory = Category.Find(categoryId);
+       return View(foundCategory);
     }
 
     [HttpPost("/items")]

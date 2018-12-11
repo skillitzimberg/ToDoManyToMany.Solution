@@ -181,29 +181,6 @@ namespace ToDoList.Models
         Category newCategory = new Category(categoryDescription, categoryId);
         categories.Add(newCategory);
       }
-      // rdr.Dispose();
-      //
-      // List<Category> categories = new List<Category>{};
-      // foreach (int categoryId in categoryIds)
-      // {
-      //   MySqlCommand categoryQuery = conn.CreateCommand() as MySqlCommand;
-      //   categoryQuery.CommandText = @"SELECT * FROM categories WHERE id = @CategoryId;";
-      //
-      //   MySqlParameter categoryIdParameter = new MySqlParameter();
-      //   categoryIdParameter.ParameterName = "@CategoryId";
-      //   categoryIdParameter.Value = categoryId;
-      //   categoryQuery.Parameters.Add(categoryIdParameter);
-      //
-      //   MySqlDataReader categoryQueryRdr = categoryQuery.ExecuteReader() as MySqlDataReader;
-      //   while(categoryQueryRdr.Read())
-      //   {
-      //     int thisCategoryId = categoryQueryRdr.GetInt32(0);
-      //     string categoryName = categoryQueryRdr.GetString(1);
-      //     Category foundCategory = new Category(categoryName, thisCategoryId);
-      //     categories.Add(foundCategory);
-      //   }
-      //   categoryQueryRdr.Dispose();
-      // }
 
       conn.Close();
       if (conn != null)
@@ -230,7 +207,7 @@ namespace ToDoList.Models
       item_id.ParameterName = "@ItemId";
       item_id.Value = _id;
       cmd.Parameters.Add(item_id);
-      
+
       cmd.ExecuteNonQuery();
       conn.Close();
       if (conn != null)

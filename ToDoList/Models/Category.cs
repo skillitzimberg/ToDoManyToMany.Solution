@@ -23,6 +23,11 @@ namespace ToDoList.Models
       return _name;
     }
 
+    public int GetId()
+    {
+      return _id;
+    }
+
     public override bool Equals(System.Object otherCategory)
     {
       if (!(otherCategory is Category))
@@ -50,11 +55,6 @@ namespace ToDoList.Models
       {
         conn.Dispose();
       }
-    }
-
-    public int GetId()
-    {
-      return _id;
     }
 
     public static List<Category> GetAll()
@@ -101,6 +101,7 @@ namespace ToDoList.Models
         conn.Dispose();
       }
     }
+
     public static Category Find(int id)
     {
       MySqlConnection conn = DB.Connection();
@@ -160,23 +161,6 @@ namespace ToDoList.Models
         return items;
     }
 
-    public void Delete()
-    {
-      MySqlConnection conn = DB.Connection();
-      conn.Open();
-
-      MySqlCommand cmd = new MySqlCommand("DELETE FROM categories WHERE id = @CategoryId; DELETE FROM categories_items WHERE category_id = @CategoryId;", conn);
-
-      MySqlParameter categoryIdParameter = new MySqlParameter();
-      categoryIdParameter.ParameterName = "@CategoryId";
-      categoryIdParameter.Value = this.GetId();
-      cmd.Parameters.Add(categoryIdParameter);
-      cmd.ExecuteNonQuery();
-      if (conn != null)
-      {
-        conn.Close();
-      }
-    }
 
     public void AddItem(Item newItem)
     {
@@ -205,6 +189,24 @@ namespace ToDoList.Models
       if (conn != null)
       {
         conn.Dispose();
+      }
+    }
+
+    public void Delete()
+    {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+
+      MySqlCommand cmd = new MySqlCommand("DELETE FROM categories WHERE id = @CategoryId; DELETE FROM categories_items WHERE category_id = @CategoryId;", conn);
+
+      MySqlParameter categoryIdParameter = new MySqlParameter();
+      categoryIdParameter.ParameterName = "@CategoryId";
+      categoryIdParameter.Value = this.GetId();
+      cmd.Parameters.Add(categoryIdParameter);
+      cmd.ExecuteNonQuery();
+      if (conn != null)
+      {
+        conn.Close();
       }
     }
 
